@@ -4,12 +4,12 @@ TARGET = main
 
 CC = gcc
 CPPFLAGS =
-CFLAGS   = -MMD -MP -Wall -g -std=c99
+CFLAGS   = -MMD -MP -Wall -g -std=gnu99
 
 LD = gcc
-LDFLAGS =
+LDFLAGS = -I/usr/lib/i386-linux-gnu/
 # LDLIBS  = -lm -lfftw3f
-LDLIBS  = -lm
+LDLIBS  = -lm -lfftw3f
 
 .PHONY: all clean
 
