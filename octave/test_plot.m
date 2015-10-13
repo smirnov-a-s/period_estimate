@@ -9,20 +9,19 @@ len = length(x)
 ## plot(x)
 ## grid on;
 
-corr_win = 256;
-max_lag = 1024;
+## corr_win = 256;
+## max_lag = 1024;
 
-w = x(1:1024);
+## w = x(1:1024);
 
-res = [];
-stop = length(x);
-i = 1;
-while (i < stop - corr_win)
-  win = x(i : i + corr_win - 1)';
-  length(win);
-  res = [res, win];
-  i = i + corr_win;
-endwhile
+## res = [];
+## stop = length(x);
+## i = 1;
+## while (i < stop - corr_win)
+##   win = x(i : i + corr_win - 1)';
+##   res = [res, win];
+##   i = i + corr_win;
+## endwhile
 
 ## cc = normxcorr2(x, w);
 

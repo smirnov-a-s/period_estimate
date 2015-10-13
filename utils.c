@@ -118,9 +118,9 @@ float* read_float_bin_data(const char* file_name, int* num_elems)
 	}
 
 	*num_elems = elems_num;
-	for (int i = 0; i < elems_read; i++) {
-		printf("%f\n", buf[i]);
-	}
+//	for (int i = 0; i < elems_read; i++) {
+//		printf("%f\n", buf[i]);
+//	}
 
 	return buf;
 }
