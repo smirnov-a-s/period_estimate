@@ -1,7 +1,7 @@
 #!/usr/bin/octave -qf
 
-fid = fopen("./dump/sig_bin.dump","r");
-x = fread(fid, Inf, "int32", 0);
+fid = fopen("./dump/main_input_norm_float_bin.dat","r");
+x = fread(fid, Inf, "float32", 0);
 fclose(fid);
 
 len = length(x)

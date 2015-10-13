@@ -76,8 +76,50 @@ int* read_int_bin_data(const char* file_name, int* num_elems)
 	}
 
 	*num_elems = elems_num;
+//	for (int i = 0; i < elems_read; i++) {
+//		printf("%d\n", buf[i]);
+//	}
+
+	return buf;
+}
+
+float* read_float_bin_data(const char* file_name, int* num_elems)
+{
+	FILE* file = fopen(file_name, "r");
+	if (file == NULL) {
+		printf("Can't open file.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	int fd = fileno(file);
+	if (fd == -1) {
+		printf("Error getting descriptor.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	struct stat st;
+	fstat(fd, &st);
+	unsigned int sz = st.st_size;
+	unsigned int elems_num = sz / sizeof(float);
+
+	printf("File size: %d\n", sz);
+	printf("Num elems: %d\n", elems_num);
+
+	float* buf = (float*) malloc(sz);
+
+	size_t elems_read = fread(buf, sizeof(float), elems_num, file);
+	printf("Elems read: %d\n", elems_read);
+
+	fclose(file);
+
+	if (elems_num != elems_read) {
+		printf("Error reading all data.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	*num_elems = elems_num;
 	for (int i = 0; i < elems_read; i++) {
-		printf("%d\n", buf[i]);
+		printf("%f\n", buf[i]);
 	}
 
 	return buf;
