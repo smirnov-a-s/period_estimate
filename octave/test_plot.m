@@ -1,13 +1,15 @@
 #!/usr/bin/octave -qf
 
-fid = fopen("./dump/main_input_norm_float_bin.dat","r");
-x = fread(fid, Inf, "float32", 0);
-fclose(fid);
+## fid = fopen("./dump/main_input_norm_float_bin.dat","r");
+## fid = fopen("./dump/nccf.dat","r");
+## x = fread(fid, Inf, "float32", 0);
+x = load("./dump/nccf.dat");
+## fclose(fid);
 
 len = length(x)
-## figure(1)
-## plot(x)
-## grid on;
+figure(1)
+plot(x)
+grid on;
 
 ## corr_win = 256;
 ## max_lag = 1024;
@@ -34,4 +36,4 @@ len = length(x)
 ## hold on;
 ## plot(x, 'r');
 
-## input("");
+input("");

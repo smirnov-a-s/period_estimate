@@ -10,7 +10,7 @@ plot(x)
 grid on;
 
 Fs = 200;
-N = 256;
+N = 128;
 spect = fft(x, N);
 spect = spect / N;
 spect = abs(spect);
@@ -24,5 +24,20 @@ printf("delta f    = %f\n", Fs / N);
 figure(2);
 plot(f_axis, spect(1 : length(f_axis)));
 grid on;
+
+set(gca,'xtick',[0 : 1 : 100])
+
+spect_db = 0;
+for i = 2 : length(spect)
+  spect_db(i) = 10 * log10(spect(i)/spect(1));
+endfor
+
+spect(1) = 0;
+
+figure(3);
+plot(f_axis, spect_db(1 : length(f_axis)));
+grid on;
+
+set(gca,'xtick',[0 : 1 : 100])
 
 input("");
