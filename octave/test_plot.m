@@ -1,4 +1,5 @@
-#!/usr/bin/octave -qf
+## !/usr/local/bin/octave -qf
+## !/usr/bin/octave -qf
 
 ## fid = fopen("./dump/main_input_norm_float_bin.dat","r");
 ## fid = fopen("./dump/nccf.dat","r");
@@ -36,4 +37,4 @@ grid on;
 ## hold on;
 ## plot(x, 'r');
 
-input("");
+## input("");

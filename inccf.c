@@ -49,7 +49,7 @@ int nearest_pow_two(int x)
 }
 
 
-int init_inccf(InccfData* inccf, int samplerate, int fmin, int fmax, float w, float tlag)
+int init_inccf(InccfData* inccf, int samplerate, float fmin, float fmax, float w, float tlag)
 {
 	int res = 0;  /* all fine by default */
 
@@ -258,6 +258,29 @@ void free_inccf(InccfData* inccf)
 	}
 }
 
+void find_nccf_candidates(InccfData* inccf, float threshold, float *out_corrs)
+{
+    int out_corr_cnt = 0;
+    float* nccf = inccf->nccf;
+    for (int i = 0; i < inccf->llag; i++) {
+        if (nccf[i] >= threshold) {
+            int j = i;
+            float local_max = 0.0f;
+            int lag = 0;
+            while (nccf[j] >= threshold) {
+                if (nccf[j] > local_max) {
+                    local_max = nccf[j];
+                    lag = j;
+                }
+                j++;
+            }
+            printf("max = %f, lag = %d\n", local_max, lag);
+            out_corrs[out_corr_cnt++] = lag;
+            i = j;
+        }
+    }
+}
+
 int search_candidates_inccf(InccfData* inccf, float threshold, int max_cand, float* out_corrs, int* out_lags)
 {
 	int result_idx = 0; /* by default */
@@ -309,9 +332,8 @@ int search_candidates_inccf(InccfData* inccf, float threshold, int max_cand, flo
 			idx = local_idx;
 			out_corrs[result_idx] = local_max;
 			out_lags[result_idx++] = local_max_idx;
-#ifdef DBG
-			printf("local_max=%f   local_max_idx=%d   nccf[idx]=%f ...(span %d:%d)\n", local_max, local_max_idx, nccf[local_max_idx], inccf->fmax_lag, inccf->fmin_lag);
-#endif
+
+            printf("local_max=%f local_max_idx=%d nccf[idx]=%f ...(span %d:%d)\n", local_max, local_max_idx, nccf[local_max_idx], inccf->fmax_lag, inccf->fmin_lag);
 
 		}
 	}

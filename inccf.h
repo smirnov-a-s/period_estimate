@@ -8,8 +8,8 @@
 typedef struct inccf_data {
         /* FREQUENCIES */
         int samplerate; /* guess!! */
-        int fmax; /* minimal frequency to search */
-        int fmin; /* minimal frequency to search */
+        float fmax; /* minimal frequency to search */
+        float fmin; /* minimal frequency to search */
 
         /* TIMES */
         float w;  /* correlation win size in sec */
@@ -46,11 +46,13 @@ typedef struct inccf_data {
  * w - corr window in sec
  * tlag - max lag in sec
  */
-int init_inccf(InccfData* inccf, int samplerate, int fmin, int fmax, float w, float tlag);
+int init_inccf(InccfData* inccf, int samplerate, float fmin, float fmax, float w, float tlag);
 void process_inccf(InccfData* inccf, float* s);
 /* fft nccf */
 void process_fft_inccf(InccfData* inccf, float* s);
 void free_inccf(InccfData* inccf);
+
+void find_nccf_candidates(InccfData* inccf, float threshold, float* out_corrs);
 
 /*
   Searches for candidates in calculated nccf sequence. Return number of found candidates.

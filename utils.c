@@ -65,7 +65,7 @@ int* read_int_bin_data(const char* file_name, int* num_elems)
 
 	int* buf = (int*) malloc(sz);
 
-	size_t elems_read = fread(buf, sizeof(int), elems_num, file);
+    int elems_read = fread(buf, sizeof(int), elems_num, file);
 	printf("Elems read: %d\n", elems_read);
 
 	fclose(file);
@@ -107,7 +107,7 @@ float* read_float_bin_data(const char* file_name, int* num_elems)
 
 	float* buf = (float*) malloc(sz);
 
-	size_t elems_read = fread(buf, sizeof(float), elems_num, file);
+    int elems_read = fread(buf, sizeof(float), elems_num, file);
 	printf("Elems read: %d\n", elems_read);
 
 	fclose(file);
