@@ -6,20 +6,7 @@
 #define THRESHOLD 0.55f
 #define MAX_CAND_NUM 50
 
-float* get_test_data(int samplerate)
-{
-	float freq = 0.2f;
-	int size = samplerate * 20;
-	float *sig = malloc(size * sizeof(float));
-
-	/* generate test data */
-	generate_sin(samplerate, freq, sig, size);
-	write_plot_data("./octave/dump/sig.dat", sig, samplerate);
-
-	return sig;
-}
-
-int main(int argc, char *argv[])
+int main()
 {
 	int samplerate = 200;
 
@@ -31,7 +18,7 @@ int main(int argc, char *argv[])
 	/* correlation win size in sec */
 	float w = 5.0f;
 	/* correlation longest lag in sec */
-	float tlag = 50.0f;
+	float tlag = 65.0f;
 
 	init_nccf(&nccf, samplerate, w, tlag);
 
@@ -44,6 +31,7 @@ int main(int argc, char *argv[])
 	estimate_freq(&nccf, THRESHOLD);
 
 	free(data);
+	free_nccf(&nccf);
 
 	return 0;
 }

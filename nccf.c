@@ -80,6 +80,7 @@ void free_nccf(NccfData* nccf)
 
 static void find_nccf_candidates(NccfData* inccf, float threshold, float *out_corrs, int* out_corrs_size)
 {
+	// move far from 0 lag!!!
 	int out_corr_cnt = 0;
 	float* nccf = inccf->nccf;
 	for (int i = 0; i < inccf->llag; i++) {
