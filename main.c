@@ -3,73 +3,47 @@
 #include "utils.h"
 #include "inccf.h"
 
+#define THRESHOLD 0.55f
+#define MAX_CAND_NUM 50
+
+float* get_test_data(int samplerate)
+{
+	float freq = 0.2f;
+	int size = samplerate * 20;
+	float *sig = malloc(size * sizeof(float));
+
+	/* generate test data */
+	generate_sin(samplerate, freq, sig, size);
+	write_plot_data("./octave/dump/sig.dat", sig, samplerate);
+
+	return sig;
+}
+
 int main(int argc, char *argv[])
 {
-    int samplerate = 200;
+	int samplerate = 200;
 
-    int buf_size;
-    float* data = read_float_bin_data("./octave/dump/main_input_norm_float_bin.dat", &buf_size);
-    printf("buf size: %d\n", buf_size);
+	int buf_size;
+	float* data = read_float_bin_data("./octave/dump/main_input_norm_float_bin.dat", &buf_size);
+	printf("Samples read: %d\n", buf_size);
 
-    float freq = 0.2f;
-    int size = samplerate * 20;
-    float *sig1 = malloc(size * sizeof(float));
-    /* float *sig2 = malloc(size * sizeof(float)); */
+	NccfData nccf;
+	/* correlation win size in sec */
+	float w = 5.0f;
+	/* correlation longest lag in sec */
+	float tlag = 50.0f;
 
-    /* audio data */
-    /* int audio_size; */
-    /* const char* fn = "../testaudio/announcer8kHz.wav"; */
-    /* float *audio1 = read_audio_data(fn, &audio_size); */
-    /* float *audio2 = read_audio_data(fn, &audio_size); */
+	init_nccf(&nccf, samplerate, w, tlag);
 
-    /* generate test data */
-    generate_sin(samplerate, freq, sig1, size);
-    /* generate_sin(samplerate, freq, sig2, size); */
+	printf("corr win    = %d samp\n", nccf.n);
+	printf("longest lag = %d samp\n", nccf.llag);
 
-    /* write_plot_data("./octave/dump/sig.dat", sig1, samplerate); */
+	process_nccf(&nccf, data);
+	write_plot_data("./octave/dump/nccf.dat", nccf.nccf, nccf.llag);
 
-    InccfData inccf;
-    float fmin = 0.1f;
-    float fmax = 5.0f;
-    /* correlation win size in sec */
-    // float w = 512.0f / (float) samplerate;
-    float w = 5.0f;
-    /* correlation lag in sec */
-    // float tlag = 512.0f / (float) samplerate;
-    float tlag = 50.0f;
+	estimate_freq(&nccf, THRESHOLD);
 
-    init_inccf(&inccf, samplerate, fmin, fmax, w, tlag);
+	free(data);
 
-    printf("corr win    = %d samp\n", inccf.n);
-    printf("longest lag = %d samp\n", inccf.llag);
-
-    /* process_inccf(&inccf, audio1); */
-    // process_inccf(&inccf, sig1);
-    process_inccf(&inccf, data);
-    write_plot_data("./octave/dump/nccf.dat", inccf.nccf, inccf.llag);
-
-    /* process_fft_inccf(&inccf, audio2); */
-    /* write_plot_data("./octave/dump/fft_nccf.dat", inccf.nccf, inccf.llag); */
-
-    float threshold = 0.55f;
-    int max_cand_num = 50;
-
-    float* out_corrs = (float*) calloc(max_cand_num, sizeof(float));
-    // int* out_lags = (int*) calloc(max_cand_num, sizeof(int));
-
-    // search_candidates_inccf(&inccf, threshold, max_cand_num, out_corrs, out_lags);
-
-    find_nccf_candidates(&inccf, threshold, out_corrs);
-
-    for (int i = 0; i < inccf.llag - 1; i++) {
-        int delta = out_corrs[i + 1] - out_corrs[i];
-        float freq = (float) samplerate / (float) delta;
-        printf("delta = %d, f = %f\n", delta, freq);
-    }
-
-    /* free(sig1); */
-    /* free(sig2); */
-    free(data);
-
-    return 0;
+	return 0;
 }
