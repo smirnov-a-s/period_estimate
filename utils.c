@@ -11,19 +11,17 @@
 void write_plot_data(const char* fn, float* data, int size)
 {
 	int fd;
-
 	if ((fd = creat(fn, PERMS)) == -1)
 		printf("Can't create output file.\n");
 
-	FILE* filePtr;
-	filePtr = fopen(fn, "w");
+	FILE* file = fopen(fn, "w");
 
 	int i;
 	for (i = 0; i < size; i++) {
-		fprintf(filePtr, "%.10f\n", data[i]);
+		fprintf(file, "%.10f\n", data[i]);
 	}
 
-	fclose(filePtr);
+	fclose(file);
 }
 
 /* generates the sin wave of specified freq for some testing */
@@ -65,7 +63,7 @@ int* read_int_bin_data(const char* file_name, int* num_elems)
 
 	int* buf = (int*) malloc(sz);
 
-    int elems_read = fread(buf, sizeof(int), elems_num, file);
+	int elems_read = fread(buf, sizeof(int), elems_num, file);
 	printf("Elems read: %d\n", elems_read);
 
 	fclose(file);
@@ -107,7 +105,7 @@ float* read_float_bin_data(const char* file_name, int* num_elems)
 
 	float* buf = (float*) malloc(sz);
 
-    int elems_read = fread(buf, sizeof(float), elems_num, file);
+	int elems_read = fread(buf, sizeof(float), elems_num, file);
 	printf("Elems read: %d\n", elems_read);
 
 	fclose(file);
