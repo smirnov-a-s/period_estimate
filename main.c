@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "utils.h"
-#include "inccf.h"
+#include "nccf.h"
 
 #define THRESHOLD 0.55f
 #define MAX_CAND_NUM 50

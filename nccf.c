@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "inccf.h"
+#include "nccf.h"
 
 void init_nccf(NccfData* nccf, int samplerate, float w, float tlag)
 {

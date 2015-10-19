@@ -1,5 +1,5 @@
-inccf.c
-inccf.h
+nccf.c
+nccf.h
 main.c
 utils.c
 utils.h

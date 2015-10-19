@@ -1,13 +1,11 @@
-#ifndef INCCF_H
-#define INCCF_H
+#ifndef _NCCF_H_
+#define _NCCF_H_
 
 typedef struct {
-		int samplerate;
-		// can be removed?
-		// float w;  /* correlation win size in sec */
-		int llag; /* longets lag in samples */
-		int n; /* correlation win size in samples */
-		float* nccf; /* result buffer */
+	int samplerate;
+	int llag; /* longets lag in samples */
+	int n; /* correlation win size in samples */
+	float* nccf; /* result buffer */
 } NccfData;
 
 /* w - corr window in sec
